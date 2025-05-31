@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+            <style>
+                #fehlermeldung{
+                    color: red;
+                }
+            </style>
+</head>
+<body>
+
+    <h2>Steuer Nettorechner</h2>
+
+    <label for="Input">Kosten: </label>
+    <input type="number" id="Input">
+    <br>
+
+    <input type="radio" id="Radio_7" name="prozent">
+    <label for="Radio_7">7%</label>
+
+    <input type="radio" id="Radio_19" name="prozent">
+    <label for="Radio_19">19%</label>
+
+    <br>
+    <button onclick="prozent()">Calculate</button>
+
+    <div id="Ausgabe"></div>
+    <div id="fehlermeldung"></div>
+
+
+
+    <script>
+        // erst mal alle id infos aus den HTML-berreich entziehen
+                let Input = document.getElementById('Input');   
+                let Radio_7 = document.getElementById('Radio_7');
+                let Radio_19 = document.getElementById('Radio_19');
+                let fehlermeldung = document.getElementById('fehlermeldung');
+                let Ausgabe = document.getElementById('Ausgabe');
+
+
+        // überprüft ob Input eine Zhal ist
+        function NAN_Checker(x){
+            return !isNaN(x);
+        }
+
+        // überprüft ob Input eine positive zahl ist und über 0 ist
+        function zeroOrLess(x){
+            return 0 <= x
+        }
+
+
+        // macht einfach nach dem clicken des buttons, alles wieder neu
+        function ClearF(){
+            Ausgabe.innerHTML = "";
+            fehlermeldung.innerHTML = "";
+        }
+
+        // das macht eine zahl zu einen richtigen eurobetrag
+        function Euromaker(x){
+            return x.toLocaleString("de-DE",{style: "currency", currency:"EUR"});
+        }
+
+
+        // errechnet den Skontowert
+        function SkontoRechner(x){
+            
+            // wenn 7%
+            if(Radio_7.checked){
+                return x * 0.07
+            }
+
+            // wenn 19% 
+            else if(Radio_19.checked){
+                return x * 0.19
+            }
+
+            //wenn kein radiobutton ausgewählt ist, entseht eine fehlermeldung
+            else{       
+                fehlermeldung.innerHTML = "bitte wähle ein radiobutton"; 
+                return null;
+            }
+        
+        }
+
+        // findet den Nettobetrag herraus
+        function Nettobetrag(x, y){
+            return x - y;
+        }
+
+
+
+
+
+        // Das ist die Main funktion
+        function prozent(){
+
+            // zieht den neuen Inputwert aus Kosten-Input
+            Input = parseFloat(Input.value)
+
+            // löscht ausgabe und fehlermeldungsbereich für sauberkeit und übersicht
+            ClearF()
+
+            // überprüft ob Input eine Zahl ist
+            if(!NAN_Checker(Input)){
+                fehlermeldung.innerHTML = "Eingabe ist keine gültige Zahl";
+                return null;
+            }
+
+            // überprüft ob Input eine positive zahl ist und über 0 ist
+            if(!zeroOrLess(Input)){
+                fehlermeldung.innerHTML = "Eingabe soll über 0€ sein";
+                return null;
+            }
+
+
+            // das ist die Ausgabe die der User sieht
+            Ausgabe.innerHTML = "Brutto: " + Euromaker(Input) +
+                                "<br> Skonto: " + Euromaker(SkontoRechner(Input)) +
+                                "<br> Netto: "  + Euromaker(Nettobetrag(Input, SkontoRechner(Input)))
+
+        }
+        
+    </script>
+
+</body>
+</html>
