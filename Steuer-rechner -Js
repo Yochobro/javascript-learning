@@ -35,11 +35,12 @@
 
     <script>
         // erst mal alle id infos aus den HTML-berreich entziehen
-                let Input = document.getElementById('Input');   
+                let Eingabe = document.getElementById('Input');   
                 let Radio_7 = document.getElementById('Radio_7');
                 let Radio_19 = document.getElementById('Radio_19');
                 let fehlermeldung = document.getElementById('fehlermeldung');
                 let Ausgabe = document.getElementById('Ausgabe');
+                let Input;
 
 
         // überprüft ob Input eine Zhal ist
@@ -99,7 +100,7 @@
         function prozent(){
 
             // zieht den neuen Inputwert aus Kosten-Input
-            Input = parseFloat(Input.value)
+            Input = parseFloat(Eingabe.value);
 
             // löscht ausgabe und fehlermeldungsbereich für sauberkeit und übersicht
             ClearF()
@@ -125,6 +126,6 @@
         }
         
     </script>
-
+    
 </body>
 </html>
